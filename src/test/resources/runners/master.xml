@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel = "tests">
+
+<listeners>
+<listener class-name = "org.uncommons.reportng.HTMLReporter" />
+<listener class-name = "org.uncommons.reportng.JUnitXMLReporter" />
+<listener class-name = "zmaster.framework.listeners.ExtentListener" />
+</listeners>
+
+  <test name="LoginTest">
+    <classes>
+      <class name="zmaster.framework.testcases.LoginTest"/>
+    </classes>
+  </test> <!-- Test -->
+  
+  <test name="SortingProductsTest">
+    <classes>
+      <class name="zmaster.framework.testcases.SortingProductsTest"/>
+    </classes>
+  </test> <!-- Test -->
+  
+  <test name="VerifyInventoryTest">
+    <classes>
+      <class name="zmaster.framework.testcases.VerifyInventoryTest"/>
+    </classes>
+  </test> <!-- Test -->
+  
+  <test name="AddProductToCart">
+    <classes>
+      <class name="zmaster.framework.testcases.AddProductToCart"/>
+    </classes>
+  </test> <!-- Test -->
+
+  <test name="PlaceOrder">
+    <classes>
+      <class name="zmaster.framework.testcases.PlaceOrder"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->

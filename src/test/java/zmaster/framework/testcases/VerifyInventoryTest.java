@@ -22,7 +22,7 @@ public class VerifyInventoryTest extends BaseTest {
 		logInfo("Navigated to website");
 		InventoryPageActions inventoryPage = homePage.doLogin(ht.get("EmailID"), ht.get("Password"));
 		logInfo("Logged In Successfully!!!");
-		hardAssert(String.valueOf(inventoryPage.getProductListing()), ht.get("NumberOfListing"));
+		hardAssert(String.valueOf(inventoryPage.getProductListing()), ht.get("NumberOfListing").replace("6.0", "6"));
 		logInfo("Expected product listing matched");
 		
 	}

@@ -1,16 +1,11 @@
 package zmaster.framework.base;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
+
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeSuite;
@@ -27,7 +22,7 @@ public class BaseTest {
 
 
 	@BeforeSuite
-	public void setUpFramework() {
+	private void setUpFramework() {
 		DriverFactory.setGridPath("C:\\Users\\himun\\eclipse-workspace\\zmaster.framework\\src\\test\\resources\\grid\\selenium-server-4.0.0-alpha-1.jar");
 
 		if(System.getProperty("os.name").contains("mac")) {
@@ -40,42 +35,25 @@ public class BaseTest {
 	}
 
 	protected void openBrowser(String browser) {
+		if((!System.getenv("isRemote").isEmpty()) && System.getenv("isRemote").equalsIgnoreCase("Grid"))
+			DriverFactory.setIsRemote(true);
+		else
+			DriverFactory.setIsRemote(false);
 
-		DriverFactory.setIsRemote(true);
 
-		if(DriverFactory.getRemote()) {
-			DesiredCapabilities dc = new DesiredCapabilities();
-
-			if(browser.equals("firefox")) {
-				dc.setPlatform(Platform.ANY);
-				dc.setBrowserName("firefox");
-				FirefoxOptions fo = new FirefoxOptions();
-				fo.merge(dc);
-			} else if(browser.equals("chrome")) {
-				dc.setPlatform(Platform.ANY);
-				dc.setBrowserName("chrome");
-				ChromeOptions co = new ChromeOptions();
-				co.merge(dc);
+		if(!DriverFactory.getRemote()) {
+			if(browser.equals(Constants.CHROME)) {
+				WebDriverManager.chromedriver().setup();
+				driver = new ChromeDriver();
+			} else if (browser.equals(Constants.FIREFOX)) {
+				WebDriverManager.firefoxdriver().setup();
+				driver = new FirefoxDriver();
 			}
-
-			try {
-				driver = new RemoteWebDriver(new URL("http://localhost:4444/"), dc);
-			}catch(MalformedURLException mae) {
-				mae.printStackTrace();
-			}
-} else {
-		if(browser.equals(Constants.CHROME)) {
-			WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver();
-		} else if (browser.equals(Constants.FIREFOX)) {
-			WebDriverManager.firefoxdriver().setup();
-			driver = new FirefoxDriver();
 		}
-}
 		DriverManager.setDriver(driver);
 
 		DriverManager.getDriver().manage().window().maximize();
-}
+	}
 
 	protected String getTitle() {
 		return DriverManager.getDriver().getTitle();
@@ -88,7 +66,7 @@ public class BaseTest {
 
 	}
 
-	protected void hardAssert(String actual, String expected) {
+	protected void hardAssert(Object actual, Object expected) {
 		Assert.assertEquals(actual, expected);
 
 	}
@@ -99,10 +77,8 @@ public class BaseTest {
 
 	@AfterMethod
 	protected void quit() {
-		if(driver != null) {
-			driver.quit();
-			DriverManager.setDriver(null);
-		}
+		if(driver != null) 
+			DriverManager.getDriver().quit();
 
 	}
 

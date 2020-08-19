@@ -35,11 +35,12 @@ public class BaseTest {
 	}
 
 	protected void openBrowser(String browser) {
-		if((!System.getenv("isRemote").isEmpty()) && System.getenv("isRemote").equalsIgnoreCase("Grid"))
+		if(System.getenv("isRemote").equalsIgnoreCase("Grid"))
 			DriverFactory.setIsRemote(true);
 		else
 			DriverFactory.setIsRemote(false);
 
+		      System.out.println(DriverFactory.getRemote());
 
 		if(!DriverFactory.getRemote()) {
 			if(browser.equals(Constants.CHROME)) {
@@ -50,6 +51,7 @@ public class BaseTest {
 				driver = new FirefoxDriver();
 			}
 		}
+		
 		DriverManager.setDriver(driver);
 
 		DriverManager.getDriver().manage().window().maximize();

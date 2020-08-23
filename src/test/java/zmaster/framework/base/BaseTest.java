@@ -35,22 +35,15 @@ public class BaseTest {
 	}
 
 	protected void openBrowser(String browser) {
-		if(System.getenv("isRemote").equalsIgnoreCase("Grid"))
-			DriverFactory.setIsRemote(true);
-		else
-			DriverFactory.setIsRemote(false);
-
-		      System.out.println(DriverFactory.getRemote());
-
-		if(!DriverFactory.getRemote()) {
-			if(browser.equals(Constants.CHROME)) {
+	       
+		  if(browser.equals(Constants.CHROME)) {
 				WebDriverManager.chromedriver().setup();
 				driver = new ChromeDriver();
 			} else if (browser.equals(Constants.FIREFOX)) {
 				WebDriverManager.firefoxdriver().setup();
 				driver = new FirefoxDriver();
 			}
-		}
+	
 		
 		DriverManager.setDriver(driver);
 

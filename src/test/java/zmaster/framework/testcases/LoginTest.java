@@ -23,6 +23,7 @@ public class LoginTest extends BaseTest{
 		 softAssert(getTitle(), ht.get("ExpectedTitle"));
 		 logInfo("Title is correct");
 		 homePageActions.doLogin(ht.get("EmailID"), ht.get("Password"));
+		 softAssert(getTitle(), ht.get("ExpectedTitle"));
 		 logInfo("login successful");
 		
 	}

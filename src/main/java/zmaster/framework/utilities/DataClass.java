@@ -16,9 +16,6 @@ public class DataClass {
 		int rows = reader.getNumberOfRows(m.getName());
 		int cols = reader.getNumberOfCols(m.getName());
 		
-		System.out.println(rows);
-		System.out.println(cols);
-		
 		if(rows < 2) {
 			System.out.println("Found No Rows");
 			return null;
